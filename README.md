@@ -1,4 +1,6 @@
-# ku-calendar-ui
+# jira-time-tracking-ui
+
+> Jira Time Tracking front-end project
 
 ## Build Setup
 
