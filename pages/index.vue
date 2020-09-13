@@ -155,7 +155,8 @@
         </v-list-item>
         <v-list-item>
           <v-row justify="center">
-            <v-date-picker no-title width="250px"> </v-date-picker>
+            <v-date-picker v-model="focus" no-title width="250px">
+            </v-date-picker>
           </v-row>
         </v-list-item>
         <v-list-item>
@@ -165,9 +166,10 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
-      outlined
+      height="80px"
       class="calendar-app-bar"
       :src="navbarBackground"
+      color="primary"
       :clipped-left="clipped"
       fixed
       app
@@ -176,7 +178,16 @@
         style="color: white"
         @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
-      <v-toolbar-title style="color: white" v-text="title" />
+      <v-img
+        style="margin-left: 10px"
+        :src="iconKoc"
+        max-width="64px"
+        max-height="64"
+      ></v-img>
+      <v-toolbar-title
+        style="color: white; font-family: stymiebold,serif; margin-left: 10px; font-size: 36px"
+        v-text="title"
+      />
       <v-spacer />
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
@@ -186,53 +197,51 @@
       <v-container>
         <v-layout column justify-center align-center>
           <div class="toolbarContainer">
-            <div class="toolbar">
-              <v-row>
-                <v-col>
-                  <v-btn class="today" @click="setToday"> Today </v-btn>
-                </v-col>
-                <v-col>
-                  <v-row>
-                    <v-btn
-                      fab
-                      small
-                      absolute
-                      left
-                      color="primary"
-                      @click="$refs.calendar.prev()"
-                    >
-                      <v-icon>mdi-chevron-left</v-icon>
-                    </v-btn>
-                    <v-btn
-                      fab
-                      small
-                      absolute
-                      right
-                      color="primary"
-                      @click="$refs.calendar.next()"
-                    >
-                      <v-icon>mdi-chevron-right</v-icon>
-                    </v-btn>
-                  </v-row>
-                </v-col>
-                <v-col>
-                  <!--TODO: calendar v-if-->
+            <v-row class="fill-height">
+              <v-col cols="12" lg="2">
+                <v-row justify="center">
+                  <v-btn color="primary" class="today" @click="setToday">
+                    Today
+                  </v-btn>
+                </v-row>
+              </v-col>
+              <v-col cols="12" lg="3">
+                <v-row class="fill-height" align-content="center">
+                  <v-btn
+                    fab
+                    x-small
+                    class="arrows"
+                    color="primary"
+                    @click="$refs.calendar.prev()"
+                  >
+                    <v-icon>mdi-chevron-left</v-icon>
+                  </v-btn>
+                  <v-btn
+                    fab
+                    x-small
+                    class="arrows"
+                    color="primary"
+                    @click="$refs.calendar.next()"
+                  >
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-btn>
                   <v-toolbar-title v-if="$refs.calendar">
                     {{ $refs.calendar.title }}
                   </v-toolbar-title>
-                </v-col>
-                <v-col>
-                  <v-select
-                    v-model="type"
-                    :items="typeOptions"
-                    label="Type"
-                    hide-details
-                    outlined
-                    dense
-                  ></v-select>
-                </v-col>
-              </v-row>
-            </div>
+                </v-row>
+              </v-col>
+              <v-col style="margin-left: auto" cols="12" lg="2">
+                <v-select
+                  v-model="type"
+                  :items="typeOptions"
+                  label="Type"
+                  hide-details
+                  color="primary"
+                  outlined
+                  dense
+                ></v-select>
+              </v-col>
+            </v-row>
           </div>
           <v-sheet class="calendarContainer">
             <v-calendar
@@ -242,6 +251,7 @@
               :events="events"
               first-time="08:00"
               @change="retrieveEvents"
+              event-color="accent"
             >
             </v-calendar>
           </v-sheet>
@@ -257,6 +267,7 @@ import EventCreationService from '~/service/events/EventCreationService'
 
 export default {
   data: (vm) => ({
+    iconKoc: require('../assets/koc.png'),
     type: 'month',
     dialog: false,
     clubSelected: '',
@@ -267,11 +278,15 @@ export default {
     clubs: [
       'KU AIRS',
       'Google DSC',
+      'GLLP',
+      'KU Musical',
+      'KU SWE',
       'Business Club',
       'KU Orkestra',
       'KU ACM',
       'IEEE',
-      'KU Entrepreneurship'
+      'KU Entrepreneurship',
+      'KU Awareness Club'
     ],
     typeOptions: [
       { text: 'Day', value: 'day' },
@@ -304,7 +319,7 @@ export default {
     right: true,
     rightDrawer: false,
     navbarBackground: require('../assets/navbar.jpg'),
-    title: 'KU-Calendar',
+    title: 'KUlendar',
     events: []
   }),
   computed: {
@@ -335,7 +350,7 @@ export default {
             start: new Date(event.start),
             end: new Date(event.end),
             timed: true,
-            color: 'secondary'
+            color: 'indigo'
           })
         }
       })
@@ -372,6 +387,10 @@ export default {
 
 <style>
 @media all {
+  body,
+  html {
+    overflow: hidden;
+  }
   .container {
     display: flex;
     flex-direction: row;
@@ -381,7 +400,7 @@ export default {
   .toolbarContainer {
     display: flex;
     flex-direction: row;
-    max-width: 100%;
+    width: 100%;
   }
 }
 
@@ -390,9 +409,17 @@ export default {
   flex-direction: row;
 }
 
+.arrows {
+  margin-right: 10px;
+}
+
 .calendarContainer {
   width: 100%;
   height: 500px;
   flex: 1 1 auto;
+}
+
+.v_image__image {
+  background-position-y: -75px;
 }
 </style>

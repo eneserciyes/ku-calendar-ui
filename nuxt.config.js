@@ -29,7 +29,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: [{ src: '~static/fonts/fonts.css' }],
   /*
    ** Plugins to load before mounting the App
    */
@@ -78,7 +78,7 @@ export default {
       dark: false,
       themes: {
         dark: {
-          primary: colors.blue.darken2,
+          primary: '#AB162B',
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
@@ -87,8 +87,8 @@ export default {
           success: colors.green.accent3
         },
         light: {
-          primary: colors.blue.lighten2,
-          accent: colors.grey.lighten3,
+          primary: '#AB162B',
+          accent: '#C10B25',
           secondary: colors.amber.lighten3,
           info: colors.teal.lighten1,
           warning: colors.amber.base,
