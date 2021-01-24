@@ -1,6 +1,6 @@
-# jira-time-tracking-ui
+# KULendar UI
 
-> Jira Time Tracking front-end project
+>KULendar front-end project
 
 ## Build Setup
 
